@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="#">Navbar</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary main-nav">
+  <a class="navbar-brand" href="#">Contact App</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -32,19 +32,20 @@
         </li> -->
     </ul>
     <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="contactParams" name="search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="searchContact(contactParams)">Search</button>
     </form>
   </div>
 </nav>
 
 <ul class="nav justify-content-end nav-action-container">
   <li class="nav-item">
-    <button type="button" class="btn btn-primary contact-button">Load contacts</button>
+    <button type="button" class="btn btn-primary contact-button" (click)="loadContacts()">Load
+      Contacts</button>
     <!-- <a class="nav-link" href="#">Load Contacts</a> -->
   </li>
   <li class="nav-item">
-    <button type="button" class="btn btn-primary contact-button">Save All</button>
+    <button type="button" class="btn btn-primary contact-button" (click)="saveItemsToLocalStorage(contacts)">Save All</button>
     <!-- <a class="nav-link" href="#">Save All</a> -->
   </li>
   <li class="nav-item">
@@ -62,32 +63,51 @@
         <th scope="col">Last Name</th>
         <th scope="col">Email</th>
         <th scope="col">Phone</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let contact of contacts; let i = index">
         <th *ngIf="!contact.editing" scope="row">{{contact.id}}</th>
-        <td *ngIf="!contact.editing" >{{contact.firstName}}</td>
+        <td *ngIf="!contact.editing">{{contact.firstName}}</td>
         <td *ngIf="!contact.editing">{{contact.lastName}}</td>
         <td *ngIf="!contact.editing">{{contact.email}}</td>
         <td *ngIf="!contact.editing">{{contact.phone}}</td>
+        <td *ngIf="!contact.editing">
+          <button type="button" class="btn btn-danger contact-button" (click)="deleteContact(i)">X</button>
+        </td>
 
-      <td *ngIf="contact.editing">
-        <input type="text" class="form-control" placeholder="ID" aria-label="ID" aria-describedby="basic-addon1">
 
-      </td>
-      <td *ngIf="contact.editing">
-        <input type="text" class="form-control" placeholder="First Name" aria-label="ID" aria-describedby="basic-addon1">
-      </td>
-      <td *ngIf="contact.editing">
-        <input type="text" class="form-control" placeholder="Last Name" aria-label="ID" aria-describedby="basic-addon1">
-      </td>
-      <td *ngIf="contact.editing">
-        <input type="text" class="form-control" placeholder="Email" aria-label="ID" aria-describedby="basic-addon1">
-      </td>
-      <td *ngIf="contact.editing">
-        <input type="text" class="form-control" placeholder="Phone" aria-label="ID" aria-describedby="basic-addon1">
-      </td>
-  </tbody>
+
+
+        <td *ngIf="contact.editing">
+          <input [(ngModel)]="contact.id" type="text" class="form-control" placeholder="ID" aria-label="ID"
+            aria-describedby="basic-addon1">
+
+        </td>
+        <td *ngIf="contact.editing">
+          <input [(ngModel)]="contact.firstName" type="text" class="form-control" placeholder="First Name" aria-label="ID"
+            aria-describedby="basic-addon1">
+        </td>
+        <td *ngIf="contact.editing">
+          <input [(ngModel)]="contact.lastName" type="text" class="form-control" placeholder="Last Name" aria-label="ID"
+            aria-describedby="basic-addon1">
+        </td>
+        <td *ngIf="contact.editing">
+          <input [(ngModel)]="contact.email" type="text" class="form-control" placeholder="Email" aria-label="ID"
+            aria-describedby="basic-addon1">
+        </td>
+        <td *ngIf="contact.editing">
+          <input [(ngModel)]="contact.phone" type="text" class="form-control" placeholder="Phone" aria-label="ID"
+            aria-describedby="basic-addon1">
+        </td>
+        <td *ngIf="contact.editing">
+          <div class="btn-group">
+            <button type="button" class="btn btn-success contact-button" (click)="saveContact(contact)">Save</button>
+            <button type="button" class="btn btn-danger contact-button" (click)="deleteContact(i)">X</button>
+          </div>
+        </td>
+
+    </tbody>
   </table>
 </div>
